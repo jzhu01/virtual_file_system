@@ -9,17 +9,27 @@ import java.util.Date;
  */
 
 /** Class for filesystem */
-class filesystem{
+class filesystem {
+
     ArrayList<myFile> fs = new ArrayList<myFile>();
+    
+    /** Method will create a new file */
     public boolean createFile(String name,int size, Date date){
-        //if()file already exists, return false
-        myFile newFile = new myFile(name,size,date);
+        for (myFile f: fs){           // if file already in the filesystem, return false
+            if (f.name.equals(name)){
+                return false;
+            }
+        }
+        myFile newFile = new myFile(name,size,date);  // otherwise, create a new file
         fs.add(newFile);
         return true;
     }
+
+    /** Method will write to a file */
     public boolean write(String fileName, String content){
         for(myFile f : fs){
             if(f.name.equals(fileName)){
+                // call method from myFile here
                 f.content = content;
                 f.date = new Date();
                 f.size = content.length();
@@ -29,15 +39,20 @@ class filesystem{
         System.out.println("file not found");
         return false;
     }
+
+    /** Method will read a file */
     public String read(String fileName){
         for(myFile f : fs){
             if(f.name.equals(fileName)){
+                // call method from myFile here
                 return f.content;
             }
         }
         System.out.println("file not found");
         return null;
     }
+
+    /** Method will list all the files in the directory */
     public String list(){
         String returnval = "";
         for(myFile f : fs){
@@ -45,4 +60,12 @@ class filesystem{
         }
         return returnval;
     }
+
+    /** Additional methods to be Addressed: */
+    // Delete a file
+    // Move a file
+    // Copy a file
+    // Insert into a file
+    // Close a file - close and remove all locks
+
 }
