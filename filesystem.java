@@ -61,10 +61,35 @@ class filesystem {
         return returnval;
     }
 
+    /** Method will copy file contents into another file */
+    public boolean copy(String originalFileName, String fileCopiedToName){
+        myFile originalFile = null;
+        myFile fileCopiedTo = null;
+        for (myFile f: fs){       // loop through all the files and check to see i they are equal to 2 files
+            if (f.name.equals(originalFileName)) {
+                originalFile = f;
+            } else if (f.name.equals(fileCopiedToName)){
+                fileCopiedTo = f;
+            }
+        }
+        // question: are these instancees of the original files, or actually dealing with those objects?
+        fileCopiedTo.content = originalFile.content;
+        return true;
+    }
+
+    /** Method will delete a file */
+    public void delete(String fileToDeleteName){
+        for (myFile f:fs){
+            if (f.name.equals(fileToDeleteName)){
+                f = null;
+            }
+        }
+    }
     /** Additional methods to be Addressed: */
     // Delete a file
     // Move a file
     // Copy a file
+    // --> assume both files exist, 
     // Insert into a file
     // Close a file - close and remove all locks
 

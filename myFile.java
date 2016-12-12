@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 /*
  * Operating Systems Lab Final
  * @author: Jen Zhu
@@ -31,5 +32,4 @@ class myFile{
         // need some sort of locking mechanism here
         // will inquire professor about specifics later
     }
-}
 }

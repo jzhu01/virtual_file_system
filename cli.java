@@ -60,6 +60,16 @@ class cli extends Thread{
 
                     System.out.println("content of "+ fileName + " is : "+ fs.read(fileName));
                 }
+                if (command.equals("cp")){
+                    String originalFileName = st.nextToken();
+                    String fileNames= commandLine.substring(commandLine.indexOf(" ")+1); //originalFile
+                    String fileCopiedToName = fileNames.substring(fileNames.indexOf(" ")+1); // fileToBeChanged
+                    //System.out.println("Original File Name: "+ originalFileName);
+                    //System.out.println("File to be Copied To: "+fileCopiedToName);
+                    if (fs.copy(originalFileName, fileCopiedToName)){
+                        System.out.println("File successfully copied.");
+                    }
+                }
 
         }
     }
