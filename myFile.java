@@ -15,7 +15,8 @@ class myFile{
     String content;
     // readerLock should be a int semaphore - multiple readers at the same time
     // writerLock should be a binary semaphore - only one writer at a time
-    private Semaphore readerLock = new Semaphore(1);
+    private Semaphore readerLock = new Semaphore(10);
+    private Semaphore writerLock = new Semaphore(1);
     public myFile(String name, int size, Date date) {
         this.name = name;
         this.size = size;
@@ -24,12 +25,30 @@ class myFile{
     public String toString(){
         return name +" "+ size +" "+ date;
     }
-    public void read(){
+    public String read() throws InterruptedException {
         // need some sort of locking mechanism here
-        // will inquire professor about specifics later
+        // assume the contents of the file are a string, with no breaks
+        readerLock.acquire();
+        String content = this.content;
+        readerLock.release();
+        return content;
     }
-    public void write(){
+    public void write(String content, Date date) throws InterruptedException {
         // need some sort of locking mechanism here
         // will inquire professor about specifics later
+        writerLock.acquire();
+        this.content = content;
+        this.date = date;
+        this.size = content.length();
+        writerLock.release();
+
+    }
+
+    public void insert(String content, Date date) throws InterruptedException {
+        writerLock.acquire();
+        this.content += content;
+        this.date = date;
+        this.size = this.content.length();
+        writerLock.release();
     }
 }

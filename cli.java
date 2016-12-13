@@ -54,7 +54,7 @@ class cli extends Thread{
                     String temp2 = temp.substring(temp.indexOf(" ")+1); // rest aka content
 
                     if(fs.write(fileName,temp2)){
-                        System.out.println(fileName + "is updated");
+                        System.out.println(fileName + "has been overwritten.");
 
                     }
                     else{
@@ -70,7 +70,7 @@ class cli extends Thread{
                 }
 
                 // copying from a file to another
-                if (command.equals("cp")){
+                if (command.equals("copy")){
                     String originalFileName = st.nextToken();
                     String fileNames= commandLine.substring(commandLine.indexOf(" ")+1); //originalFile
                     String fileCopiedToName = fileNames.substring(fileNames.indexOf(" ")+1); // fileToBeChanged
@@ -81,10 +81,25 @@ class cli extends Thread{
                     }
                 }
 
-                if (command.equals("rm")){
+                // remove a file from the filesystem
+                if (command.equals("del")){
                     String fileToDeleteName = st.nextToken();
                     fs.delete(fileToDeleteName);
                     System.out.println("File successfully deleted.");
+                }
+
+                // append text to a document
+                if (command.equals("insert")){
+                    String fileName = st.nextToken();
+                    String temp = commandLine.substring(commandLine.indexOf(" ")+1); // file name
+                    String contentToAdd = temp.substring(temp.indexOf(" ")); // content to be added on
+                    System.out.println("File successfully updated");
+                    if(fs.insert(fileName, contentToAdd)){
+                        System.out.println(fileName+" has been successfully updated");
+                    }
+                    else{
+                        System.out.println("An error occured.");
+                    }
                 }
 
         }

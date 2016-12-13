@@ -11,8 +11,13 @@ import java.util.Date;
 /** Class for filesystem */
 class filesystem {
 
-    ArrayList<myFile> fs = new ArrayList<myFile>();
-    
+    ArrayList<myFile> fs;
+
+    public filesystem() {
+        this.fs = new ArrayList<myFile>();
+
+    } 
+
     /** Method will create a new file */
     public boolean createFile(String name,int size, Date date){
         for (myFile f: fs){           // if file already in the filesystem, return false
@@ -30,9 +35,12 @@ class filesystem {
         for(myFile f : fs){
             if(f.name.equals(fileName)){
                 // call method from myFile here
-                f.content = content;
-                f.date = new Date();
-                f.size = content.length();
+                Date updatedDate = new Date();
+                try {
+                    f.write(content, updatedDate);
+                } catch (InterruptedException e) {
+                    //error handling
+                }
                 return true;
             }
         }
@@ -45,7 +53,12 @@ class filesystem {
         for(myFile f : fs){
             if(f.name.equals(fileName)){
                 // call method from myFile here
-                return f.content;
+                try {
+                    String content = f.read();
+                    return content;
+                } catch (InterruptedException e){
+                    //error handling
+                }
             }
         }
         System.out.println("file not found");
@@ -87,10 +100,29 @@ class filesystem {
         }
         fs.remove(fs.indexOf(fileToDelete));        
     }
+
+    /** Method to insert into a file (add to the pre-existing text in the file) */
+    public boolean insert(String fileToUpdate, String content){
+        for (myFile f:fs){
+            if (f.name.equals(fileToUpdate)){
+                Date newDate = new Date();
+                try {
+                    f.insert(content, newDate);
+                    return true;
+                } catch (InterruptedException e){
+                    // error handling
+                }
+            }
+        }
+        System.out.println("file not found");
+        return false;
+    }
     /** Additional methods to be Addressed: */
+    // locking in general (? how to test?)
     // Move a file
+    // --> Need to find a way to store both arrayLists of files and files in filesystem
     // --> assume both files exist, 
-    // Insert into a file
-    // Close a file - close and remove all locks
+    // Insert into a file (? adding to content in the file?)
+    // Close a file - close and remove all locks (? releasing the locks?)
 
 }

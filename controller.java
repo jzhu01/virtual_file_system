@@ -19,6 +19,9 @@ public class controller {
         filesystem fs = new filesystem();
         cli c1 = new cli(fs);
         c1.start();
+        // how do we test multiple cli at once without overriding one another? 
+        // And being in the same instance?
+
 
     }
 }
