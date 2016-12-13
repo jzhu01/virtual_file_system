@@ -25,7 +25,8 @@ class cli extends Thread{
 
                 String command = st.nextToken();
                 System.out.println("command :"+command);
-                if(command.equals("create")){ // > create fileName
+                // creating a new file
+                if(command.equals("create")){ 
                     String fileName = st.nextToken();
                    // System.out.println("fileName: "+fileName);
                     if(fs.createFile(fileName , 0, new Date())){
@@ -35,13 +36,18 @@ class cli extends Thread{
                         System.out.println("file creation failed");
                     }
                 }
+
+                // listing all files in the directory
                 if(command.equals("ls")){ // > ls
                     System.out.println(fs.list());
                 }
+
+                // exiting out of the program
                 if(command.equals("quit")){ // > quit
                     System.out.println("See you again");
                     return;
                 }
+                // writing to the file
                 if(command.equals("put")){ // > put fileName content
                     String fileName = st.nextToken();
                     String temp = commandLine.substring(commandLine.indexOf(" ")+1); //filename
@@ -55,11 +61,15 @@ class cli extends Thread{
                         System.out.println("an error occured");
                     }
                 }
+
+                // reading from the file
                 if(command.equals("get")){ // > get filename
                     String fileName = st.nextToken();
 
-                    System.out.println("content of "+ fileName + " is : "+ fs.read(fileName));
+                    System.out.println("content of "+ fileName + " is: "+ fs.read(fileName));
                 }
+
+                // copying from a file to another
                 if (command.equals("cp")){
                     String originalFileName = st.nextToken();
                     String fileNames= commandLine.substring(commandLine.indexOf(" ")+1); //originalFile
@@ -69,6 +79,12 @@ class cli extends Thread{
                     if (fs.copy(originalFileName, fileCopiedToName)){
                         System.out.println("File successfully copied.");
                     }
+                }
+
+                if (command.equals("rm")){
+                    String fileToDeleteName = st.nextToken();
+                    fs.delete(fileToDeleteName);
+                    System.out.println("File successfully deleted.");
                 }
 
         }

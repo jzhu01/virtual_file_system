@@ -79,16 +79,16 @@ class filesystem {
 
     /** Method will delete a file */
     public void delete(String fileToDeleteName){
+        myFile fileToDelete = null;
         for (myFile f:fs){
             if (f.name.equals(fileToDeleteName)){
-                f = null;
+                fileToDelete = f;
             }
         }
+        fs.remove(fs.indexOf(fileToDelete));        
     }
     /** Additional methods to be Addressed: */
-    // Delete a file
     // Move a file
-    // Copy a file
     // --> assume both files exist, 
     // Insert into a file
     // Close a file - close and remove all locks
