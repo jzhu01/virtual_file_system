@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 /*
  * Operating Systems Lab Final
- * @author: Jen Zhu
+ * @author: Sadi Evren Seker, Jen Zhu
  * Due Date: 12/15/16
  *
  */
@@ -21,7 +21,7 @@ public class controller {
         c1.start();
         // how do we test multiple cli at once without overriding one another? 
         // And being in the same instance?
-
-
+        //cli c2 = new cli(fs);
+        //c2.start();
     }
 }
