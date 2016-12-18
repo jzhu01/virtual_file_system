@@ -24,14 +24,14 @@ class cli extends Thread{
             StringTokenizer st = new StringTokenizer(commandLine);
 
             String command = st.nextToken();
-            System.out.println("command :"+command);
+            // System.out.println("command: "+command);
             
             // creating a new file
             if(command.equals("create")){ 
                 String fileName = st.nextToken();
                // System.out.println("fileName: "+fileName);
                 if(fs.createFile(fileName , 0, new Date())){
-                    System.out.println("file is created successfully");
+                    System.out.println("file has been created successfully");
                 }
                 else{
                     System.out.println("file creation failed");
@@ -48,6 +48,7 @@ class cli extends Thread{
                 System.out.println("See you again");
                 return;
             }
+
             // writing to the file
             if(command.equals("put")){ // > put fileName content
                 String fileName = st.nextToken();
@@ -96,7 +97,7 @@ class cli extends Thread{
                 String fileName = st.nextToken();
                 String temp = commandLine.substring(commandLine.indexOf(" ")+1); // file name
                 String contentToAdd = temp.substring(temp.indexOf(" ")); // content to be added on
-                System.out.println("File successfully updated");
+                //System.out.println("File successfully updated");
                 if(fs.insert(fileName, contentToAdd)){
                     System.out.println(fileName+" has been successfully updated");
                 } else{
@@ -105,7 +106,7 @@ class cli extends Thread{
             }
 
             // rename file 
-            if (command.equals("mv")){
+            if (command.equals("rename")){
                 String fileName = st.nextToken();
                 String temp = commandLine.substring(commandLine.indexOf(" ")+1); // file name
                 String newFileName = temp.substring(temp.indexOf(" ")); // new file name
@@ -121,6 +122,7 @@ class cli extends Thread{
                 String fileName = st.nextToken();
                 //System.out.println("Trying to close the file...");
                 fs.close(fileName);
+                System.out.println("Succesffully closed "+fileName);
             }
         } // closes out of the while loop
 

@@ -13,20 +13,16 @@ import java.util.concurrent.TimeUnit;
 class filesystem {
 
     ArrayList<myFile> fs;
-    //ArrayList<sharedFile> currentlyAccessedFiles;
     ArrayList<myFile> currentlyReading;
     ArrayList<myFile> currentlyWriting;
 
 
     public filesystem() {
         this.fs = new ArrayList<myFile>();
-        //this.currentFiles = new ArrayList<sharedFile>();
         this.currentlyReading = new ArrayList<myFile>();
         this.currentlyWriting = new ArrayList<myFile>();
 
     } 
-
-    /** Helper Method to see if currentlyReading contains the file*/
 
     /** Method will create a new file */
     public boolean createFile(String name,int size, Date date){
@@ -130,7 +126,7 @@ class filesystem {
         return true;
     }
 
-    /** Method will delete a file */
+    /** Method will DELETE a file */
     // Delete a file while another thread is reading/writing -> NO
     // Delete a file while another thread is writing -> NO
     public void delete(String fileToDeleteName){
@@ -148,6 +144,8 @@ class filesystem {
     }
 
     /** Method to insert into a file (add to the pre-existing text in the file) */
+    // assumed that insertion was different from writing, so I checked to see if there
+    //    already was a writer, and if so, user had to close the locks and then try again.
     public boolean insert(String fileToUpdate, String content){
         for (myFile f:fs){
             if (f.name.equals(fileToUpdate)){
@@ -186,11 +184,8 @@ class filesystem {
 
     /** Method to Close locks on file */
     public void close(String fileToClose){
-        //System.out.println("Entered the close method!");
         for (myFile f: fs){
             if (f.name.equals(fileToClose)){
-                // System.out.println("Found the file!");
-                f.close();
                 if (currentlyWriting.contains(f)) {
                     currentlyWriting.remove(f);
                 } if (currentlyReading.contains(f)) {
@@ -199,21 +194,4 @@ class filesystem {
             }
         }
     }
-    /** Additional methods to be Addressed: */
-    // locking in general (? how to test?)
-    //  --> create a data structure, synchronize via data structure
-    //  --> array keeping track of locks on numerous files and check permissions from array before opening file
-
-    // Locking Situations: 
-    // Open a file for reading while already reading -> OK
-    // Open a file for writing while another is reading  -> NO
-    // Copy a file while another is reading -> OK
-    // Delete a file while another thread is reading/writing -> NO
-    // Insert into a file while another thread is reading -> NO
-    // Open a file for reading while another thread is writing -> NO
-    // Delete a file while another thread is writing -> NO
-    // Copy from file while another thread is writing to the file -> NO
-    // Copy into file while another thread is writing to the file -> NO
-    // 
-
 }
